@@ -6,6 +6,8 @@
 *.exe
 *.o
 *.so
+bot/__pycache__
+.vscode
 
 # Packages #
 ############
@@ -36,6 +38,8 @@
 ehthumbs.db
 Thumbs.db
 
-# Keys  #
+# files  #
 ######################
 secrets/config.cfg
+secrets/config.ini
+secrets/bannedwords-full.txt
