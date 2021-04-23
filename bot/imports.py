@@ -1,3 +1,5 @@
 import discord
-import configHandler
-import loadWords
+import configHandler as cH
+import loadWords as lW
+from datetime import datetime
+import os

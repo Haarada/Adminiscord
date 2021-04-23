@@ -1,7 +1,7 @@
 from imports import *
 
-token = configHandler.configHandle().loadCfg()
-words = loadWords.loadWords().lw()
+token = cH.configHandle().loadCfg()
+words = lW.loadWords().lw()
 client = discord.Client()
 
 @client.event
@@ -14,17 +14,33 @@ async def on_message(message):
         return
 
     msg = message.content
-    if msg.startswith('.test'):
+    if msg.startswith('test'):
         await message.channel.send('Testing!')
 
-    print(msg)
+    # ==== \/ zapisywanie wiadomosci do pliku \/ ====
+    now = datetime.now()
+    time = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    if  os.path.exists(".\\secrets\\messages\\"+str(message.guild.id)+".txt"):
+        logchat = open(".\\secrets\\messages\\"+str(message.guild.id)+".txt","a")
+    else:
+        logchat = open(".\\secrets\\messages\\"+str(message.guild.id)+".txt","x")
+    logchat.write("["+time+"]["+message.channel.name+"]["+message.author.mention+"]["+msg+"]\n")
+    logchat.close()
+
+    print("["+time+"]["+message.channel.name+"]["+message.author.display_name+"]["+msg+"]")
     msg = msg.lower()
+    deleteword = False
     for word in words:
         if word in msg:
             msg = msg.replace(word,"\*"*len(word))
-            await message.channel.send(message.author.mention+" Watch your language! Censored message:\n> "+msg)
-            await message.delete()
+            deleteword = True
+            
+    if deleteword == True:
+        await message.channel.send(message.author.mention+" Watch your language! Censored message:\n> "+msg)
+        await message.delete()
+        deleteword = False
 
-    print(msg)
+    #print(msg)
 
 client.run(token['private']['token'])
