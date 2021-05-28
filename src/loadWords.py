@@ -6,8 +6,8 @@ class loadWords:
         
 
     def lw(self):
-        if  os.path.exists(r".\secrets\bannedwords.txt"):
-            wfile = open(r".\secrets\bannedwords.txt","r")
+        if  os.path.exists(r".\data\bannedwords.txt"):
+            wfile = open(r".\data\bannedwords.txt","r")
             self.words = wfile.read().splitlines()
             wfile.close()
             return self.words
