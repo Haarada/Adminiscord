@@ -21,11 +21,12 @@ async def on_message(message):
     now = datetime.now()
     time = now.strftime("%d/%m/%Y %H:%M:%S")
 
-    if  os.path.exists(".\\secrets\\messages\\"+str(message.guild.id)+".txt"):
-        logchat = open(".\\secrets\\messages\\"+str(message.guild.id)+".txt","a")
+    if  os.path.exists(".\\data\\messages\\"+str(message.guild.id)+".txt"):
+        logchat = open(".\\data\\messages\\"+str(message.guild.id)+".txt","a")  # Open in Append mode
     else:
-        logchat = open(".\\secrets\\messages\\"+str(message.guild.id)+".txt","x")
-    logchat.write("["+time+"]["+message.channel.name+"]["+message.author.mention+"]["+msg+"]\n")
+        logchat = open(".\\data\\messages\\"+str(message.guild.id)+".txt","x")  # open in Write mode (with file creation)
+        
+    logchat.write("["+time+"]["+message.channel.name+"]["+message.author.mention+"]["+msg+"]\n") 
     logchat.close()
 
     print("["+time+"]["+message.channel.name+"]["+message.author.display_name+"]["+msg+"]")
