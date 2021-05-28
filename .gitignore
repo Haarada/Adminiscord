@@ -40,7 +40,8 @@ Thumbs.db
 
 # files  #
 ######################
-secrets/config.cfg
-secrets/config.ini
-secrets/bannedwords-full.txt
-secrets/messages/*
+data/config.cfg
+data/config.ini
+data/bannedwords-full.txt
+data/messages/*
+data/tests
