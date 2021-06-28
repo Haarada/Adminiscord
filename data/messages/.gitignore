@@ -1,0 +1,6 @@
+# This location will contain message files. one for each server where bot is running.
+
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
