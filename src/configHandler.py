@@ -17,9 +17,9 @@ class fileHandler:
         else:
             with open(self.config_location,"x") as cfgfile:
                 self.config.write(cfgfile)
-
-        
-
+                print("Generated config in data\\config.cfg, paste there your token and owner id.")
+                exit()
+                
         return 0
         
 

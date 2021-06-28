@@ -45,3 +45,4 @@ data/config.ini
 data/bannedwords-full.txt
 data/messages/*
 data/tests
+data/serverdata.data
