@@ -31,7 +31,6 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    print("author id:",message.author.id)
 
     msg = message.content
     if msg.startswith('test'):
