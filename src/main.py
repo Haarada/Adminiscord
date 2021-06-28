@@ -1,23 +1,49 @@
 from imports import *
 
-token = cH.configHandle().loadCfg()
+settings = fH.fileHandler().loadCfg()
+datafile = fH.fileHandler().loadData()
 words = lW.loadWords().lw()
-client = discord.Client()
+
+
+intents = discord.Intents.default()
+#intents.members = True
+
+client = commands.Bot('!', intents=intents)
+
+
+
+
+#   ========================================
+#           On Ready event
 
 @client.event
 async def on_ready():
+
     print('Logged in as {0.user}'.format(client))
+    print('to stop bot write in the chat:', "STOP_"+client.user.discriminator)
+    print("You have to be owner of the bot to do that.")
+
+
+#   ========================================
+#           On message event
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
+    print("author id:",message.author.id)
 
     msg = message.content
     if msg.startswith('test'):
         await message.channel.send('Testing!')
+        
+        # ==== \/ exiting the bot \/ ====
+    if str(message.author.id) == str(settings['private']['owner_id']) and message.content == "STOP_"+client.user.discriminator:
+        fH.fileHandler().saveData(datafile)
+        print("Adminiscord is closing...")
+        exit()
 
-    # ==== \/ zapisywanie wiadomosci do pliku \/ ====
+    # ==== \/ saving messages to file \/ ====
     now = datetime.now()
     time = now.strftime("%d/%m/%Y %H:%M:%S")
 
@@ -41,7 +67,13 @@ async def on_message(message):
         await message.channel.send(message.author.mention+" Watch your language! Censored message:\n> "+msg)
         await message.delete()
         deleteword = False
+    
+    await client.process_commands(message)
 
     #print(msg)
 
-client.run(token['private']['token'])
+
+#   ==========================================
+#           Commands
+
+client.run(settings['private']['token'])

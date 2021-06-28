@@ -4,28 +4,37 @@ import pickle
 
 
 class fileHandler:
-    #def __init__(self):
+    def __init__(self):
+        self.config_location = r".\data\config.cfg"
+        self.serverdata_location = r".\data\serverdata.data"
         
     def rewriteCfg(self):
-        self.config['private'] = {'token':'<replace this with your token>'}
-        cfgfile = open(r".\data\config.cfg","w")
-        self.config.write(cfgfile)
-        cfgfile.close()
+        self.config = configparser.ConfigParser()
+        self.config['private'] = {'token':'<replace this with your token>', 'owner_id': '<replace this with your id>'}
+        if os.path.exists(self.config_location):
+            with open(self.config_location,"w") as cfgfile:
+                self.config.write(cfgfile)
+        else:
+            with open(self.config_location,"x") as cfgfile:
+                self.config.write(cfgfile)
+
+        
+
         return 0
         
 
     def loadCfg(self):
-        if  os.path.exists(r".\data\config.cfg"):
-            self.config.read(r".\data\config.cfg")
+        if  os.path.exists(self.config_location):
+            self.config = configparser.ConfigParser()
+            self.config.read(self.config_location)
             return self.config
         else:
             return self.rewriteCfg()
     
     def loadData(self):
-        file_location = r".\data\serverdata.data"
-        if os.path.exists(file_location):
-            with open(file_location):
-                dataFile = pickle.load(file_location)
+        if os.path.exists(self.serverdata_location):
+            with open(self.serverdata_location, "rb") as datafile:
+                dataFile = pickle.load(datafile)
             return dataFile
         else:
             datafile = {}
@@ -35,9 +44,13 @@ class fileHandler:
         return 0
 
     def saveData(self, server_data):
-        file_location = r".\data\serverdata.data"
-        with open(file_location, "w"):
-            pickle.dump(server_data, file_location)
+        if os.path.exists(self.serverdata_location):
+            with open(self.serverdata_location, "wb") as datafile:
+                pickle.dump(server_data, datafile)
+        else:
+            with open(self.serverdata_location, "xb") as datafile:
+                pickle.dump(server_data, datafile)
+
 
         #TODO
         return 0
