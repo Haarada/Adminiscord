@@ -1,6 +1,7 @@
 import configparser
 import os
 import pickle
+import serverData as sD
 
 
 class fileHandler:
@@ -37,7 +38,7 @@ class fileHandler:
                 dataFile = pickle.load(datafile)
             return dataFile
         else:
-            datafile = {}
+            datafile = sD.ServerList()
             return datafile
             
         #TODO
@@ -62,7 +63,7 @@ class fileHandler:
 if __name__ == "__main__":
 
     print("What do you want to do?")
-    print("[1] - load config")
+    print("[1] - print config")
     print("[2] - rewrite config")
     question = input("input:")
     if question == '1':
@@ -72,6 +73,7 @@ if __name__ == "__main__":
             print("paste your token inside the config file")
         else:
             print("token:",cfg['private']['token'])
+            print("owner_id",cfg['private']['owner_id'])
     elif question == '2':
         cfg = fileHandler().rewriteCfg()
         print("Config file got rewirted")
